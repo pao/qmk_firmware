@@ -15,6 +15,7 @@
  */
 #include "xd75.h"
 
+#define PERMISSIVE_HOLD
 
 // layers:
 enum {
@@ -24,9 +25,17 @@ enum {
     LAYER_NAV,
 };
 
+enum {
+    TD_ENTER_NUMLOCK = 0,
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [TD_ENTER_NUMLOCK] = ACTION_TAP_DANCE_DOUBLE(KC_KP_ENTER, KC_NUMLOCK),
+};
+
 // custom keycodes
 #define Kc_CPFN LT(LAYER_FN, KC_CAPSLOCK)
-#define Kc_NMFN LT(LAYER_NUMFN, KC_KP_ENTER)
+#define Kc_NMFN LT(LAYER_NUMFN, TD(TD_ENTER_NUMLOCK))
 #define Kc_SFSL MT(MOD_RSFT, KC_SLASH)
 #define Kc_LOWR KC_NO
 #define Kc_RASE MO(LAYER_NAV)
