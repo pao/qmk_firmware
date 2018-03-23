@@ -23,6 +23,7 @@ enum {
     LAYER_FN,
     LAYER_NAV,
     LAYER_LOWER,
+    LAYER_ADJUST,
 };
 
 // custom keycodes
@@ -33,6 +34,11 @@ enum {
 #define Kc_LOWR MO(LAYER_LOWER)
 #define Kc_RASE MO(LAYER_NAV)
 #define Kc_TSK  LCTL(S(KC_ESC)) // Windows Task Manager
+
+enum {
+    Kc_CXL = SAFE_RANGE,
+    Kc_CXR,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -64,6 +70,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
     },
 
+    [LAYER_ADJUST] = {
+        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
+        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,Kc_CXL  ,_______ ,Kc_CXR  ,_______ ,_______},
+        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
+        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
+    },
+
     /*
     [LAYER_name] = { // template
         {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
@@ -77,6 +90,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+    case Kc_LOWR:
+        if (record->event.pressed) {
+            layer_on(LAYER_LOWER);
+            update_tri_layer(LAYER_LOWER, LAYER_NAV, LAYER_ADJUST);
+        } else {
+            layer_off(LAYER_LOWER);
+            update_tri_layer(LAYER_LOWER, LAYER_NAV, LAYER_ADJUST);
+        }
+        return false;
+        break;
+    case Kc_RASE:
+        if (record->event.pressed) {
+            layer_on(LAYER_NAV);
+            update_tri_layer(LAYER_LOWER, LAYER_NAV, LAYER_ADJUST);
+        } else {
+            layer_off(LAYER_NAV);
+            update_tri_layer(LAYER_LOWER, LAYER_NAV, LAYER_ADJUST);
+        }
+        return false;
+        break;
+    case Kc_CXL:
+        SEND_STRING(SS_LCTRL("x")SS_TAP(X_LEFT));
+        return false;
+        break;
+    case Kc_CXR:
+        SEND_STRING(SS_LCTRL("x")SS_TAP(X_RIGHT));
+        return false;
+        break;
     }
 
     return true;
