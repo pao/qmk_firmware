@@ -15,7 +15,9 @@
  */
 #include "xd75.h"
 
-#define PERMISSIVE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
+#undef PERMISSIVE_HOLD
+#undef PREVENT_STUCK_MODIFIERS
 
 // layers:
 enum {
@@ -34,6 +36,10 @@ enum {
 #define Kc_LOWR KC_NO
 #define Kc_RASE MO(LAYER_NAV)
 #define Kc_TSK  LCTL(S(KC_ESC)) // Windows Task Manager
+#define Kc_LCBR S(KC_LBRACKET)
+#define Kc_RCBR S(KC_RBRACKET)
+#define Kc_LPAR S(KC_9)
+#define Kc_RPAR S(KC_0)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -63,8 +69,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_NAV] = {
         {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
-        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,KC_HOME ,KC_UP   ,KC_END  ,KC_PGUP ,_______ ,_______ ,_______ ,_______},
-        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,KC_LEFT ,KC_DOWN ,KC_RGHT ,KC_PGDN ,_______ ,_______ ,_______ ,_______},
+        {_______ ,_______ ,Kc_LCBR ,Kc_RCBR ,_______ ,_______ ,_______ ,KC_HOME ,KC_UP   ,KC_END  ,KC_PGUP ,_______ ,_______ ,_______ ,_______},
+        {_______ ,Kc_LPAR ,KC_LBRC ,KC_RBRC ,Kc_RPAR ,_______ ,_______ ,KC_LEFT ,KC_DOWN ,KC_RGHT ,KC_PGDN ,_______ ,_______ ,_______ ,_______},
         {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
         {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
     },
