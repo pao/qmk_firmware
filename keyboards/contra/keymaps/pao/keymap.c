@@ -15,7 +15,9 @@
  */
 #include "contra.h"
 
-#define PERMISSIVE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
+#undef PERMISSIVE_HOLD
+#undef PREVENT_STUCK_MODIFIERS
 
 // layers:
 enum {
@@ -30,10 +32,13 @@ enum {
 #define Kc_CPFN LT(LAYER_FN, KC_CAPSLOCK)
 #define Kc_SFSL MT(MOD_RSFT, KC_SLASH)
 #define Kc_SFBS MT(MOD_RSFT, KC_BSLASH)
-#define Kc_GUSP MT(MOD_LGUI, KC_LBRACKET)
 #define Kc_LOWR MO(LAYER_LOWER)
 #define Kc_RASE MO(LAYER_NAV)
 #define Kc_TSK  LCTL(S(KC_ESC)) // Windows Task Manager
+#define Kc_LCBR S(KC_LBRACKET)
+#define Kc_RCBR S(KC_RBRACKET)
+#define Kc_LPAR S(KC_9)
+#define Kc_RPAR S(KC_0)
 
 enum {
     Kc_CXL = SAFE_RANGE,
@@ -46,19 +51,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         {KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSPC},
         {Kc_CPFN ,KC_A    ,KC_S    ,KC_D    ,KC_F    ,KC_G    ,KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT},
         {KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,Kc_SFSL ,Kc_SFBS},
-        {KC_GRV  ,KC_LGUI ,KC_LCTL ,KC_LALT ,Kc_LOWR ,KC_ENT  ,KC_SPC  ,Kc_RASE ,KC_LALT ,KC_RCTL ,Kc_GUSP ,KC_DEL },
+        {KC_GRV  ,KC_LGUI ,KC_LCTL ,KC_LALT ,Kc_LOWR ,KC_ENT  ,KC_SPC  ,Kc_RASE ,KC_LALT ,KC_RCTL ,KC_LGUI ,KC_DEL },
     },
 
     [LAYER_FN] = {
         {_______ ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,KC_F6   ,KC_F7   ,KC_F8   ,KC_F9   ,KC_F10  ,_______},
         {_______ ,KC_F11  ,KC_F12  ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
         {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
-        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,KC_RBRC ,KC_INS },
+        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,KC_INS },
     },
 
     [LAYER_NAV] = {
-        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,KC_HOME ,KC_UP   ,KC_END  ,KC_PGUP ,_______},
-        {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,KC_LEFT ,KC_DOWN ,KC_RGHT ,KC_PGDN ,_______},
+        {_______ ,_______ ,Kc_LCBR ,Kc_RCBR ,_______ ,_______ ,_______ ,KC_HOME ,KC_UP   ,KC_END  ,KC_PGUP ,_______},
+        {_______ ,Kc_LPAR ,KC_LBRC ,KC_RBRC ,Kc_RPAR ,_______ ,_______ ,KC_LEFT ,KC_DOWN ,KC_RGHT ,KC_PGDN ,_______},
         {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
         {_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______},
     },
