@@ -13,11 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "contra.h"
-
-#define IGNORE_MOD_TAP_INTERRUPT
-#undef PERMISSIVE_HOLD
-#undef PREVENT_STUCK_MODIFIERS
+#include QMK_KEYBOARD_H
 
 // layers:
 enum {
